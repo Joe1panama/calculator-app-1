@@ -1,0 +1,50 @@
+function calculateFOB() {
+  let fob = parseFloat(document.getElementById("fob").value);
+  let margin = parseFloat(document.getElementById("margin").value);
+  
+  if (isNaN(fob) || isNaN(margin)) {
+    alert("Please enter valid numbers.");
+    return;
+  }
+  
+  let unitary = fob / 12;
+  let np = unitary * 1.05;
+  let wholesale = np * margin;
+  let selling = wholesale * 2;
+  let profit = ((wholesale - np) / np) * 100;
+
+  document.getElementById("fobResults").innerHTML =
+    "<b>Unitary:</b> $" + unitary.toFixed(2) + "<br>" +
+    "<b>NP:</b> $" + np.toFixed(2) + "<br>" +
+    "<b>Wholesale (Retailer):</b> $" + wholesale.toFixed(2) + "<br>" +
+    "<b>Selling Price:</b> $" + selling.toFixed(2) + "<br>" +
+    "<b>Profit %:</b> " + profit.toFixed(2) + "%";
+}
+
+function calculateBuyingCost() {
+  let sellingPrice = parseFloat(document.getElementById("sellingPrice").value);
+  let buyingMargin = parseFloat(document.getElementById("buyingMargin").value);
+  
+  if (isNaN(sellingPrice) || isNaN(buyingMargin)) {
+    alert("Please enter valid numbers.");
+    return;
+  }
+  
+  // Adjust selling price to nearest .99
+  sellingPrice = Math.floor(sellingPrice * 100) / 100;
+  if (sellingPrice % 1 !== 0.99) {
+    sellingPrice = Math.floor(sellingPrice) + 0.99;
+  }
+
+  let wholesalePrice = sellingPrice / 2;
+  let np = wholesalePrice / buyingMargin;
+  let unitaryFob = np / 1.05;
+  let dzPrice = unitaryFob * 12;
+
+  document.getElementById("buyingResults").innerHTML =
+    "<b>Selling Price:</b> $" + sellingPrice.toFixed(2) + "<br>" +
+    "<b>Wholesale Price:</b> $" + wholesalePrice.toFixed(2) + "<br>" +
+    "<b>Nationalized Product (NP):</b> $" + np.toFixed(2) + "<br>" +
+    "<b>Unitary FOB Price:</b> $" + unitaryFob.toFixed(2) + "<br>" +
+    "<b>Cost per Dozen (DZ):</b> $" + dzPrice.toFixed(2);
+}
